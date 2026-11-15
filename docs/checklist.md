@@ -107,8 +107,8 @@
 - [ ] B: AnswerView: plain text only, citation chips, `badge.extrapolation_answer`, fixed `no_data` and `out_of_scope` texts, `ai.unavailable`, `ai.rate_limited` with seconds (FR-AI-05 to FR-AI-09, FR-AI-11, NFR-SEC-05)
 
 **Export (B)**
-- [ ] B: `lib/export.ts`: CSV (RFC 4180, `_status` columns, 38 columns) and JSON (six keys), file names in UTC; Export buttons disabled when the list is empty (FR-XPT-01 to FR-XPT-04; §7.2)
-- [ ] B: `docs/export-format.md` and `tests/export-python/check.py`; `npm run test:export` passes (O-4)
+- [x] B: `lib/export.ts`: CSV (RFC 4180, `_status` columns, 38 columns) and JSON (six keys), file names in UTC; Export buttons disabled when the list is empty (FR-XPT-01 to FR-XPT-04; §7.2)
+- [x] B: `docs/export-format.md` and `tests/export-python/check.py`; `npm run test:export` passes (O-4)
 
 **Golden set (A)**
 - [ ] A: `scripts/golden.ts` for G1 to G12 with computed oracles (S-20; `prd.md` section 10)
