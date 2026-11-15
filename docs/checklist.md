@@ -128,7 +128,7 @@
 - [ ] A: add Earth-application links with source URLs; set `verified: true` only after reading the source (S-22; FR-EAR-02)
 - [x] B: `/earth` with three application tabs and `earth.no_link` fallback (FR-EAR-01, FR-EAR-02; §6.8)
 - [x] B: URL state: filters, sort and weights restored from the query string, 200 ms debounced write (S-21; FR-EXP-06; §6.2)
-- [ ] B: compare export as CSV in the FR-XPT-02 format (FR-CMP-05)
+- [x] B: compare export as CSV in the FR-XPT-02 format (FR-CMP-05)
 - [ ] B: rover and Mars sliders appear when `enabled` flips to `true`; fixture test (FR-RNK-07)
 - [ ] B: Axe 0 violations on Explorer, detail, compare, ask and export; keyboard walkthrough; contrast check (NFR-A11Y-01 to NFR-A11Y-03)
 - [ ] B: Lighthouse mobile Performance 90 or higher; initial JavaScript for `/` at 200 KB gzip or less; `autocannon` 100 connections for 30 s (NFR-PRF-01, NFR-PRF-02, NFR-SCL-01)
