@@ -7,10 +7,10 @@ import type { ExplorerState } from "@/lib/explorer";
 
 const defaultWeights = { iss: 0.5, moon: 0.5, rover: 0, mars: 0 };
 const defaultState: ExplorerState = {
-  pillar: [],
-  fuel: [],
-  facility: [],
-  gravity: [],
+  pillar: null,
+  fuel: null,
+  facility: null,
+  gravity: null,
   o2min: null,
   o2max: null,
   psimin: null,
@@ -19,6 +19,7 @@ const defaultState: ExplorerState = {
   sort: "score",
   dir: "desc",
   weights: defaultWeights,
+  group: false,
 };
 
 describe("toCSV", () => {
@@ -120,14 +121,14 @@ describe("toJSON", () => {
   it("includes filters and weights (FR-XPT-03)", () => {
     const state: ExplorerState = {
       ...defaultState,
-      pillar: ["ignition"],
+      pillar: "detection",
       o2min: 18,
       weights: { iss: 0.7, moon: 0.3, rover: 0, mars: 0 },
     };
     const json = toJSON([investigations[0]], environments, state.weights, state);
     const data = JSON.parse(json);
     
-    expect(data.filters.pillar).toEqual(["ignition"]);
+    expect(data.filters.pillar).toBe("detection");
     expect(data.filters.o2min).toBe(18);
     expect(data.weights.iss).toBe(0.7);
     expect(data.weights.moon).toBe(0.3);
