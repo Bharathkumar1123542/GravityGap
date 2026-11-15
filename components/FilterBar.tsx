@@ -1,41 +1,29 @@
 "use client";
 // components/FilterBar.tsx — Filters and search for Explorer
-// spec §6.4 — FR-EXP-02
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import type { ExplorerState } from "@/lib/explorer";
+// spec §6.4 — FR-EXP-02, FR-EXP-06
+import type { ExplorerState, Pillar, FuelForm, Facility, Gravity } from "@/lib/explorer";
 
 type Props = {
   state: ExplorerState;
   count: number;
   total: number;
+  onChange: (updates: Partial<ExplorerState>) => void;
 };
 
-export function FilterBar({ state, count, total }: Props) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const updateParam = (key: string, value: string | null) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (value === null || value === "") {
-      params.delete(key);
-    } else {
-      params.set(key, value);
-    }
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-
+export function FilterBar({ state, count, total, onChange }: Props) {
   const resetFilters = () => {
-    const params = new URLSearchParams(searchParams.toString());
-    // Keep only weights
-    const keysToDelete: string[] = [];
-    params.forEach((_, key) => {
-      if (!key.startsWith("w_")) {
-        keysToDelete.push(key);
-      }
+    onChange({
+      q: "",
+      pillar: null,
+      fuel: null,
+      facility: null,
+      gravity: null,
+      o2min: null,
+      o2max: null,
+      psimin: null,
+      psimax: null,
+      group: false,
     });
-    keysToDelete.forEach((k) => params.delete(k));
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   return (
@@ -50,7 +38,7 @@ export function FilterBar({ state, count, total }: Props) {
           id="search"
           placeholder="Search investigations..."
           value={state.q}
-          onChange={(e) => updateParam("q", e.target.value)}
+          onChange={(e) => onChange({ q: e.target.value })}
           className="w-full px-4 py-2 bg-surface-raised border border-border-strong rounded text-text placeholder:text-text-muted focus:outline-none focus:ring-2 focus:ring-focus"
         />
       </div>
@@ -59,7 +47,7 @@ export function FilterBar({ state, count, total }: Props) {
       <div className="flex flex-wrap gap-4 items-center">
         <select
           value={state.pillar ?? ""}
-          onChange={(e) => updateParam("pillar", e.target.value || null)}
+          onChange={(e) => onChange({ pillar: (e.target.value || null) as Pillar | null })}
           className="px-3 py-2 bg-surface-raised border border-border-strong rounded text-text text-sm focus:outline-none focus:ring-2 focus:ring-focus"
         >
           <option value="">All pillars</option>
@@ -71,7 +59,7 @@ export function FilterBar({ state, count, total }: Props) {
 
         <select
           value={state.fuel ?? ""}
-          onChange={(e) => updateParam("fuel", e.target.value || null)}
+          onChange={(e) => onChange({ fuel: (e.target.value || null) as FuelForm | null })}
           className="px-3 py-2 bg-surface-raised border border-border-strong rounded text-text text-sm focus:outline-none focus:ring-2 focus:ring-focus"
         >
           <option value="">All fuels</option>
@@ -84,7 +72,7 @@ export function FilterBar({ state, count, total }: Props) {
 
         <select
           value={state.facility ?? ""}
-          onChange={(e) => updateParam("facility", e.target.value || null)}
+          onChange={(e) => onChange({ facility: (e.target.value || null) as Facility | null })}
           className="px-3 py-2 bg-surface-raised border border-border-strong rounded text-text text-sm focus:outline-none focus:ring-2 focus:ring-focus"
         >
           <option value="">All facilities</option>
@@ -96,7 +84,7 @@ export function FilterBar({ state, count, total }: Props) {
 
         <select
           value={state.gravity ?? ""}
-          onChange={(e) => updateParam("gravity", e.target.value || null)}
+          onChange={(e) => onChange({ gravity: (e.target.value || null) as Gravity | null })}
           className="px-3 py-2 bg-surface-raised border border-border-strong rounded text-text text-sm focus:outline-none focus:ring-2 focus:ring-focus"
         >
           <option value="">All gravity</option>
