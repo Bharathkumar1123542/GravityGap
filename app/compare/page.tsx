@@ -1,10 +1,11 @@
 "use client";
 // app/compare/page.tsx — Compare view
-// spec §6.5 — FR-CMP-01 to FR-CMP-04
+// spec §6.5 — FR-CMP-01 to FR-CMP-05
 import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { parseCompareIds } from "@/lib/compare";
+import { compareToCSV, compareCSVFilename } from "@/lib/export";
 import StatusBadge from "@/components/StatusBadge";
 import PillarChip from "@/components/PillarChip";
 import { COPY } from "@/lib/copy";
@@ -46,6 +47,19 @@ function CompareContent() {
     // Show max message but continue with first 4
   }
 
+  const handleExportCSV = () => {
+    const csv = compareToCSV(records);
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const filename = compareCSVFilename();
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <main id="main" className="max-w-7xl mx-auto px-4 sm:px-8 py-8">
       <div className="flex items-center justify-between mb-6">
@@ -53,6 +67,12 @@ function CompareContent() {
           Compare ({records.length})
         </h1>
         <div className="flex gap-3">
+          <button
+            onClick={handleExportCSV}
+            className="px-4 py-2 bg-accent text-on-accent rounded text-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-focus"
+          >
+            Export CSV
+          </button>
           <Link
             href="/"
             className="px-4 py-2 bg-surface-raised border border-border-strong rounded text-sm text-text hover:bg-surface"

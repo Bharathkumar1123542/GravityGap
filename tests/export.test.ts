@@ -1,7 +1,7 @@
 // tests/export.test.ts — Export format tests
-// Validates CSV and JSON export (FR-XPT-01 to FR-XPT-04)
+// Validates CSV and JSON export (FR-XPT-01 to FR-XPT-04, FR-CMP-05)
 import { describe, expect, it } from "vitest";
-import { toCSV, toJSON, csvFilename, jsonFilename } from "@/lib/export";
+import { toCSV, toJSON, csvFilename, jsonFilename, compareToCSV } from "@/lib/export";
 import { investigations, environments } from "@/lib/data";
 import type { ExplorerState } from "@/lib/explorer";
 
@@ -189,5 +189,59 @@ describe("filename generators", () => {
     
     // Should be within 1 second
     expect(Math.abs(parseInt(csvTs) - parseInt(jsonTs))).toBeLessThan(100);
+  });
+});
+
+describe("compareToCSV", () => {
+  it("exports compare view with field rows (FR-CMP-05)", () => {
+    const records = investigations.slice(0, 3);
+    const csv = compareToCSV(records);
+    const lines = csv.split("\r\n");
+
+    expect(lines.length).toBeGreaterThan(10); // At least header + several field rows
+
+    // Check header
+    const headers = lines[0].split(",");
+    expect(headers[0]).toBe("Field");
+    expect(headers.length).toBe(4); // Field + 3 investigations
+
+    // Check it includes some key fields
+    expect(csv).toContain("Full name");
+    expect(csv).toContain("Pillar");
+    expect(csv).toContain("Fuels");
+    expect(csv).toContain("Oxygen % (min-max)");
+  });
+
+  it("returns empty string for no records (FR-CMP-05)", () => {
+    const csv = compareToCSV([]);
+    expect(csv).toBe("");
+  });
+
+  it("includes all key fields in compare export", () => {
+    const records = investigations.slice(0, 2);
+    const csv = compareToCSV(records);
+
+    // Check all required fields are present
+    expect(csv).toContain("Full name");
+    expect(csv).toContain("Pillar");
+    expect(csv).toContain("Facility");
+    expect(csv).toContain("Objective");
+    expect(csv).toContain("Fuels");
+    expect(csv).toContain("Oxygen % (min-max)");
+    expect(csv).toContain("Pressure psi (min-max)");
+    expect(csv).toContain("Gravity regime");
+    expect(csv).toContain("Variables varied");
+    expect(csv).toContain("Sources count");
+  });
+
+  it("escapes CSV cells properly in compare export", () => {
+    const testRecord = {
+      ...investigations[0],
+      objective: 'Test "quotes" and, commas',
+    };
+    const csv = compareToCSV([testRecord]);
+
+    // Should quote and escape the objective field
+    expect(csv).toContain('"Test ""quotes"" and, commas"');
   });
 });
