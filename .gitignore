@@ -7,13 +7,36 @@
 
 # Local env files — NEVER commit these; secrets go in Vercel env vars only
 .env
+.env.*
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.production
+.env.development
+*.env
+*.env.local
+*.env.*.local
+
+# Backup env files (in case someone creates these)
+.env.backup
+.env.old
+.env.bak
+*.env.backup
 
 # Vercel
 .vercel
+.vercel.json
+
+# API Keys and Secrets (extra safety)
+**/secrets/
+**/keys/
+*.key
+*.pem
+*.p12
+*.pfx
+secrets.json
+credentials.json
 
 # TypeScript incremental build
 *.tsbuildinfo
@@ -24,3 +47,5 @@ next-env.d.ts
 
 # Coverage
 /coverage
+
+.vercel
