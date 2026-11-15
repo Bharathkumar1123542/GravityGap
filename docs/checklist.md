@@ -29,13 +29,13 @@
 - [ ] B: find the official Space Apps submission and judging requirements (OQ-07; hour 4)
 
 **Build**
-- [ ] B: create the public GitHub repository; Next.js App Router, TypeScript `strict`, Tailwind; exact versions pinned; `.nvmrc` on Node 22 or later (§2)
-- [ ] B: Vitest, ESLint, `typecheck`, the npm scripts and GitHub Actions CI with audit and gitleaks (§2; NFR-QLT-01)
+- [x] B: create the public GitHub repository; Next.js App Router, TypeScript `strict`, Tailwind; exact versions pinned; `.nvmrc` on Node 22 or later (§2)
+- [x] B: Vitest, ESLint, `typecheck`, the npm scripts and GitHub Actions CI with audit and gitleaks (§2; NFR-QLT-01)
 - [ ] B: deploy a hello page to Vercel from `main`; confirm function duration of at least 30 s (A-03, R-11)
-- [ ] B: map the design tokens to `tailwind.config.ts`; system font stack; base layout (`prd.md` section 5.2, 5.3)
-- [ ] A: `lib/schema.ts` Zod schema and validation rules (§4.1, §4.2)
-- [ ] A: seed `data/investigations.json` (13 ids), `data/environments.json`, `data/earth-applications.json` (§4.3–§4.5)
-- [ ] A: `scripts/validate-data.ts` wired to `prebuild`; an invalid enum value makes `npm run build` fail (FR-DAT-01, FR-DAT-02, FR-DAT-06)
+- [x] B: map the design tokens to `tailwind.config.ts`; system font stack; base layout (`prd.md` section 5.2, 5.3)
+- [x] A: `lib/schema.ts` Zod schema and validation rules (§4.1, §4.2)
+- [x] A: seed `data/investigations.json` (13 ids), `data/environments.json`, `data/earth-applications.json` (§4.3–§4.5)
+- [x] A: `scripts/validate-data.ts` wired to `prebuild`; an invalid enum value makes `npm run build` fail (FR-DAT-01, FR-DAT-02, FR-DAT-06)
 - [ ] A: Gemini key and Upstash Redis (Vercel Marketplace) set as environment variables only; nothing committed (NFR-SEC-01)
 - [ ] A: `scripts/gemini-smoke.ts`: one call returns schema-valid JSON
 
@@ -57,21 +57,21 @@
 - [ ] A: `lib/data.ts` loader (§4.7)
 
 **Scoring and shell (B)**
-- [ ] B: `config/scoring.ts` and pure `lib/scoring.ts` (§5.1–§5.3)
-- [ ] B: worked-example fixture and unit tests, 90% lines or higher on `lib/scoring.ts` (§5.4, §5.5; FR-RNK-09)
-- [ ] B: root layout, Header, Footer (`footer.disclaimer`), permanent Banner (`banner.gap`, `role="note"`), skip link, 404 page (FR-UI-01, FR-EXP-04; §6.10)
-- [ ] B: `lib/copy.ts` with every fixed string from `prd.md` section 6, plus a copy test
+- [x] B: `config/scoring.ts` and pure `lib/scoring.ts` (§5.1–§5.3)
+- [x] B: worked-example fixture and unit tests, 90% lines or higher on `lib/scoring.ts` (§5.4, §5.5; FR-RNK-09)
+- [x] B: root layout, Header, Footer (`footer.disclaimer`), permanent Banner (`banner.gap`, `role="note"`), skip link, 404 page (FR-UI-01, FR-EXP-04; §6.10)
+- [x] B: `lib/copy.ts` with every fixed string from `prd.md` section 6, plus a copy test
 
 **Explorer (B)**
-- [ ] B: `lib/explorer.ts`: `filterRecords`, sort, `parseState`, `serializeState`, with unit tests (S-07; §6.2, §6.3)
-- [ ] B: table from 768 px, cards below 768 px, all seven fields, sortable headers, default sort score descending then name (FR-EXP-01, FR-EXP-07; §6.4)
-- [ ] B: filter bar, text search, Reset filters, live count within 100 ms (FR-EXP-02)
-- [ ] B: StatusBadge and PillarChip, icon plus text, never color alone (FR-EXP-05)
-- [ ] B: WeightPanel with ISS and Moon base sliders, Reset weights, locked rows for rover and Mars (FR-RNK-01, FR-RNK-02)
-- [ ] B: ScoreBreakdown, zero-weights message, extrapolation badge, Unscored rows last (FR-RNK-03 to FR-RNK-06)
-- [ ] B: `/investigations/[id]` with `generateStaticParams`, every field and badge, sources list, Fit line, `last_curated_at`, add-to-compare button (FR-EXP-03, FR-DAT-07, NFR-LEG-01; §6.6)
-- [ ] B: `/about` with eight anchors, formula, tolerances and reference values (FR-RNK-08, FR-UI-04; §6.7)
-- [ ] B: loading, empty and error states on every data view (FR-UI-02)
+- [x] B: `lib/explorer.ts`: `filterRecords`, sort, `parseState`, `serializeState`, with unit tests (S-07; §6.2, §6.3)
+- [x] B: table from 768 px, cards below 768 px, all seven fields, sortable headers, default sort score descending then name (FR-EXP-01, FR-EXP-07; §6.4)
+- [x] B: filter bar, text search, Reset filters, live count within 100 ms (FR-EXP-02)
+- [x] B: StatusBadge and PillarChip, icon plus text, never color alone (FR-EXP-05)
+- [x] B: WeightPanel with ISS and Moon base sliders, Reset weights, locked rows for rover and Mars (FR-RNK-01, FR-RNK-02)
+- [x] B: ScoreBreakdown, zero-weights message, extrapolation badge, Unscored rows last (FR-RNK-03 to FR-RNK-06)
+- [x] B: `/investigations/[id]` with `generateStaticParams`, every field and badge, sources list, Fit line, `last_curated_at`, add-to-compare button (FR-EXP-03, FR-DAT-07, NFR-LEG-01; §6.6)
+- [x] B: `/about` with eight anchors, formula, tolerances and reference values (FR-RNK-08, FR-UI-04; §6.7)
+- [x] B: loading, empty and error states on every data view (FR-UI-02)
 
 **Gate 1**
 - [ ] FR-DAT, FR-EXP (Must) and FR-RNK (Must) acceptance criteria pass
@@ -88,8 +88,8 @@
 - [ ] A: OQ-03 (ISS atmosphere) and OQ-08 (tolerances, rate limits, bins) confirmed or left at defaults (hour 20)
 
 **Compare (B)**
-- [ ] B: `lib/compare.ts` (`parseCompareIds`), CompareProvider and sticky tray, fifth add refused with `compare.max` (FR-CMP-01, FR-CMP-04; §6.5)
-- [ ] B: `/compare` table: one column per record, "differs" marker, "Variables varied within the investigation" row (FR-CMP-02, FR-CMP-03)
+- [x] B: `lib/compare.ts` (`parseCompareIds`), CompareProvider and sticky tray, fifth add refused with `compare.max` (FR-CMP-01, FR-CMP-04; §6.5)
+- [x] B: `/compare` table: one column per record, "differs" marker, "Variables varied within the investigation" row (FR-CMP-02, FR-CMP-03)
 
 **AI route (A)**
 - [ ] A: `lib/ai/augment.ts`: `fit_iss` and `fit_moon` from the same code path as the Explorer (FR-AI-02, NFR-ACC-AI-02; §8.2)
@@ -107,8 +107,8 @@
 - [ ] B: AnswerView: plain text only, citation chips, `badge.extrapolation_answer`, fixed `no_data` and `out_of_scope` texts, `ai.unavailable`, `ai.rate_limited` with seconds (FR-AI-05 to FR-AI-09, FR-AI-11, NFR-SEC-05)
 
 **Export (B)**
-- [ ] B: `lib/export.ts`: CSV (RFC 4180, `_status` columns, 38 columns) and JSON (six keys), file names in UTC; Export buttons disabled when the list is empty (FR-XPT-01 to FR-XPT-04; §7.2)
-- [ ] B: `docs/export-format.md` and `tests/export-python/check.py`; `npm run test:export` passes (O-4)
+- [x] B: `lib/export.ts`: CSV (RFC 4180, `_status` columns, 38 columns) and JSON (six keys), file names in UTC; Export buttons disabled when the list is empty (FR-XPT-01 to FR-XPT-04; §7.2)
+- [x] B: `docs/export-format.md` and `tests/export-python/check.py`; `npm run test:export` passes (O-4)
 
 **Golden set (A)**
 - [ ] A: `scripts/golden.ts` for G1 to G12 with computed oracles (S-20; `prd.md` section 10)
@@ -126,8 +126,8 @@
 
 - [ ] A: OQ-02: reference O2 and pressure for rover and Mars, or leave both locked (hour 32)
 - [ ] A: add Earth-application links with source URLs; set `verified: true` only after reading the source (S-22; FR-EAR-02)
-- [ ] B: `/earth` with three application tabs and `earth.no_link` fallback (FR-EAR-01, FR-EAR-02; §6.8)
-- [ ] B: URL state: filters, sort and weights restored from the query string, 200 ms debounced write (S-21; FR-EXP-06; §6.2)
+- [x] B: `/earth` with three application tabs and `earth.no_link` fallback (FR-EAR-01, FR-EAR-02; §6.8)
+- [x] B: URL state: filters, sort and weights restored from the query string, 200 ms debounced write (S-21; FR-EXP-06; §6.2)
 - [ ] B: compare export as CSV in the FR-XPT-02 format (FR-CMP-05)
 - [ ] B: rover and Mars sliders appear when `enabled` flips to `true`; fixture test (FR-RNK-07)
 - [ ] B: Axe 0 violations on Explorer, detail, compare, ask and export; keyboard walkthrough; contrast check (NFR-A11Y-01 to NFR-A11Y-03)
@@ -149,7 +149,7 @@ Build in this order. An item that cannot pass its own acceptance criterion in it
 - [ ] A: evidence trail: click a sentence, open the panel with record, field, stored value, status, sources and Open record link (FR-AI-14)
 - [ ] A: server-computed confidence labels, precedence Low, Medium, High (FR-AI-13)
 - [ ] B: group-by-pillar toggle with collapsible groups (FR-PIL-01)
-- [ ] B: `/coverage` grid with regime selector, airflow filter, "gap" hatch and screen-reader table (FR-COV-01 to FR-COV-03, NFR-A11Y-04; §6.9)
+- [x] B: `/coverage` grid with regime selector, airflow filter, "gap" hatch and screen-reader table (FR-COV-01 to FR-COV-03, NFR-A11Y-04; §6.9)
 
 **Gate 4**
 - [ ] Each built item passes its own acceptance criterion, or is cut and its nav link and About text are removed

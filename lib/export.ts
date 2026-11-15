@@ -159,3 +159,162 @@ export function csvFilename(): string {
 export function jsonFilename(): string {
   return csvFilename().replace(".csv", ".json");
 }
+
+/**
+ * Export compare view as CSV (FR-CMP-05)
+ * One column per investigation, rows for each field
+ */
+export function compareToCSV(records: InvestigationRecord[]): string {
+  if (records.length === 0) return "";
+
+  // Header: Field, Investigation 1, Investigation 2, ...
+  const headers = ["Field", ...records.map((r) => r.name)];
+
+  // Build rows for each field
+  const rows: string[][] = [];
+
+  // Full name
+  rows.push([
+    "Full name",
+    ...records.map((r) => r.full_name ?? "not available"),
+  ]);
+
+  // Pillar
+  rows.push([
+    "Pillar",
+    ...records.map((r) => r.pillar.join("; ")),
+  ]);
+
+  // Facility
+  rows.push([
+    "Facility",
+    ...records.map((r) => r.facility),
+  ]);
+
+  // Hardware
+  rows.push([
+    "Hardware",
+    ...records.map((r) => r.hardware.join("; ")),
+  ]);
+
+  // Objective
+  rows.push([
+    "Objective",
+    ...records.map((r) => r.objective ?? "not available"),
+  ]);
+
+  // Fuels
+  rows.push([
+    "Fuels",
+    ...records.map((r) =>
+      r.fuels.length > 0
+        ? r.fuels.map((f) => `${f.name} (${f.form})`).join("; ")
+        : "not available"
+    ),
+  ]);
+
+  // Diluents
+  rows.push([
+    "Diluents",
+    ...records.map((r) =>
+      r.diluents.length > 0 ? r.diluents.join("; ") : "not available"
+    ),
+  ]);
+
+  // Oxygen %
+  rows.push([
+    "Oxygen % (min-max)",
+    ...records.map((r) =>
+      r.o2_min_pct !== null && r.o2_max_pct !== null
+        ? `${r.o2_min_pct}-${r.o2_max_pct}`
+        : "not available"
+    ),
+  ]);
+
+  // Pressure
+  rows.push([
+    "Pressure psi (min-max)",
+    ...records.map((r) =>
+      r.pressure_min_psi !== null && r.pressure_max_psi !== null
+        ? `${r.pressure_min_psi}-${r.pressure_max_psi}`
+        : "not available"
+    ),
+  ]);
+
+  // Airflow
+  rows.push([
+    "Airflow",
+    ...records.map((r) =>
+      r.airflow.min !== null && r.airflow.max !== null && r.airflow.unit !== null
+        ? `${r.airflow.min}-${r.airflow.max} ${r.airflow.unit}`
+        : "not available"
+    ),
+  ]);
+
+  // Gravity regime
+  rows.push([
+    "Gravity regime",
+    ...records.map((r) => r.gravity_regime.join("; ")),
+  ]);
+
+  // Variables varied
+  rows.push([
+    "Variables varied",
+    ...records.map((r) =>
+      r.variables_varied.length > 0
+        ? r.variables_varied.join("; ")
+        : "not available"
+    ),
+  ]);
+
+  // Sensors
+  rows.push([
+    "Sensors",
+    ...records.map((r) =>
+      r.sensors.length > 0 ? r.sensors.join("; ") : "not available"
+    ),
+  ]);
+
+  // Sub-experiments
+  rows.push([
+    "Sub-experiments",
+    ...records.map((r) =>
+      r.sub_experiments.length > 0
+        ? r.sub_experiments.join("; ")
+        : "not available"
+    ),
+  ]);
+
+  // PSI URL
+  rows.push([
+    "PSI URL",
+    ...records.map((r) => r.psi_url ?? "not available"),
+  ]);
+
+  // Sources count
+  rows.push([
+    "Sources count",
+    ...records.map((r) => r.sources.length.toString()),
+  ]);
+
+  // Last curated
+  rows.push([
+    "Last curated",
+    ...records.map((r) => r.last_curated_at),
+  ]);
+
+  // Construct CSV
+  const csvRows = [
+    headers.map(csvCell).join(","),
+    ...rows.map((row) => row.map(csvCell).join(",")),
+  ];
+
+  return csvRows.join("\r\n");
+}
+
+export function compareCSVFilename(): string {
+  const now = new Date();
+  const pad = (n: number, len = 2) => String(n).padStart(len, "0");
+  const ts = `${now.getUTCFullYear()}${pad(now.getUTCMonth() + 1)}${pad(now.getUTCDate())}${pad(now.getUTCHours())}${pad(now.getUTCMinutes())}${pad(now.getUTCSeconds())}`;
+  return `flame-in-freefall_compare_${ts}.csv`;
+}
