@@ -6,6 +6,7 @@ import type { InvestigationRecord, EnvironmentProfile } from "@/lib/schema";
 import type { Weights } from "@/lib/scoring";
 import { relevance } from "@/lib/scoring";
 import PillarChip from "@/components/PillarChip";
+import { useCompare } from "@/components/CompareProvider";
 import { COPY } from "@/lib/copy";
 
 type Props = {
@@ -21,6 +22,8 @@ export function InvestigationCards({
   weights,
   allZero,
 }: Props) {
+  const { ids, add, remove } = useCompare();
+
   if (records.length === 0) {
     return (
       <div className="text-center py-12 text-text-muted">
@@ -52,18 +55,38 @@ export function InvestigationCards({
             key={r.id}
             className="bg-surface-raised border border-border rounded-md p-4"
           >
-            <div className="flex items-start justify-between mb-3">
-              <Link
-                href={`/investigations/${r.id}`}
-                className="text-accent hover:underline font-medium text-lg"
-              >
-                {r.name}
-              </Link>
-              {!allZero && (
-                <div className="text-lg font-mono text-text ml-4">
-                  {score !== null ? score : "Unscored"}
+            <div className="flex items-start gap-3 mb-3">
+              <input
+                type="checkbox"
+                checked={ids.includes(r.id)}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    const result = add(r.id);
+                    if (!result.ok && result.message) {
+                      alert(result.message);
+                    }
+                  } else {
+                    remove(r.id);
+                  }
+                }}
+                className="mt-1 w-4 h-4 rounded border-border-strong focus:ring-2 focus:ring-focus flex-shrink-0"
+                aria-label={`Compare ${r.name}`}
+              />
+              <div className="flex-1">
+                <div className="flex items-start justify-between mb-2">
+                  <Link
+                    href={`/investigations/${r.id}`}
+                    className="text-accent hover:underline font-medium text-lg"
+                  >
+                    {r.name}
+                  </Link>
+                  {!allZero && (
+                    <div className="text-lg font-mono text-text ml-4">
+                      {score !== null ? score : "Unscored"}
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
             </div>
 
             <div className="space-y-2 text-sm">
