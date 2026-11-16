@@ -1,7 +1,6 @@
 "use client";
 // components/WeightPanel.tsx — Environment weight sliders
-// spec §6.4 — FR-RNK-01, FR-RNK-02, FR-RNK-04
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+// spec §6.4 — FR-RNK-01, FR-RNK-02, FR-RNK-04, FR-EXP-06
 import type { EnvironmentProfile } from "@/lib/schema";
 import type { Weights } from "@/lib/scoring";
 import { SCORING } from "@/config/scoring";
@@ -11,27 +10,19 @@ type Props = {
   environments: EnvironmentProfile[];
   weights: Weights;
   allZero: boolean;
+  onWeightChange: (weights: Weights) => void;
+  onReset: () => void;
 };
 
-export function WeightPanel({ environments, weights, allZero }: Props) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
+export function WeightPanel({
+  environments,
+  weights,
+  allZero,
+  onWeightChange,
+  onReset,
+}: Props) {
   const updateWeight = (key: string, value: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (value === 0.5) {
-      params.delete(`w_${key}`);
-    } else {
-      params.set(`w_${key}`, value.toFixed(2));
-    }
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-
-  const resetWeights = () => {
-    const params = new URLSearchParams(searchParams.toString());
-    environments.forEach((e) => params.delete(`w_${e.key}`));
-    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+    onWeightChange({ ...weights, [key]: value });
   };
 
   const moonWeight = weights.moon_base ?? 0;
@@ -72,7 +63,7 @@ export function WeightPanel({ environments, weights, allZero }: Props) {
       </div>
 
       <button
-        onClick={resetWeights}
+        onClick={onReset}
         className="w-full px-3 py-2 bg-surface border border-border-strong rounded text-sm text-text hover:bg-surface-raised focus:outline-none focus:ring-2 focus:ring-focus focus:ring-offset-2 focus:ring-offset-surface"
       >
         Reset weights

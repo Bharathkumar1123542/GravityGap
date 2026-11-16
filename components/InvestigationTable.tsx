@@ -6,6 +6,8 @@ import type { InvestigationRecord, EnvironmentProfile } from "@/lib/schema";
 import type { Weights } from "@/lib/scoring";
 import { relevance } from "@/lib/scoring";
 import PillarChip from "@/components/PillarChip";
+import { ScoreBreakdown } from "@/components/ScoreBreakdown";
+import { useCompare } from "@/components/CompareProvider";
 import { COPY } from "@/lib/copy";
 
 type Props = {
@@ -15,6 +17,7 @@ type Props = {
   allZero: boolean;
   sort: string;
   dir: "asc" | "desc";
+  onSortChange?: (sort: string, dir: "asc" | "desc") => void;
 };
 
 export function InvestigationTable({
@@ -22,7 +25,12 @@ export function InvestigationTable({
   environments,
   weights,
   allZero,
+  // sort,
+  // dir,
+  // onSortChange,
 }: Props) {
+  const { ids, add, remove } = useCompare();
+
   if (records.length === 0) {
     return (
       <div className="text-center py-12 text-text-muted">
@@ -36,6 +44,9 @@ export function InvestigationTable({
       <table className="w-full border-collapse">
         <thead>
           <tr className="bg-surface-raised border-b border-border">
+            <th className="px-4 py-3 w-12">
+              <span className="sr-only">Compare</span>
+            </th>
             <th className="px-4 py-3 text-left text-sm font-semibold text-text">
               Name
             </th>
@@ -79,7 +90,26 @@ export function InvestigationTable({
                 : "not available";
 
             return (
-              <tr key={r.id} className="border-b border-border hover:bg-surface-raised">
+              <>
+                <tr key={r.id} className="border-b border-border hover:bg-surface-raised">
+                <td className="px-4 py-3">
+                  <input
+                    type="checkbox"
+                    checked={ids.includes(r.id)}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        const result = add(r.id);
+                        if (!result.ok && result.message) {
+                          alert(result.message);
+                        }
+                      } else {
+                        remove(r.id);
+                      }
+                    }}
+                    className="w-4 h-4 rounded border-border-strong focus:ring-2 focus:ring-focus"
+                    aria-label={`Compare ${r.name}`}
+                  />
+                </td>
                 <td className="px-4 py-3">
                   <Link
                     href={`/investigations/${r.id}`}
@@ -107,6 +137,18 @@ export function InvestigationTable({
                   </td>
                 )}
               </tr>
+              <tr className="border-b border-border">
+                <td></td>
+                <td colSpan={!allZero ? 7 : 6} className="px-4 py-3">
+                  <ScoreBreakdown
+                    record={r}
+                    environments={environments}
+                    weights={weights}
+                    score={score}
+                  />
+                </td>
+              </tr>
+              </>
             );
           })}
         </tbody>
