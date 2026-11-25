@@ -1,0 +1,46 @@
+# Vercel deployment ignore file
+# Don't upload these files to speed up deployment
+
+# Dependencies (Vercel installs them)
+node_modules
+
+# Build output (Vercel builds fresh)
+.next
+out
+
+# Test files
+tests
+*.test.ts
+*.test.tsx
+vitest.config.ts
+coverage
+
+# Git files
+.git
+.gitignore
+
+# Environment files (set in Vercel dashboard)
+.env
+.env.local
+.env*.local
+
+# Editor files
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Documentation (optional - remove if you want docs in deployment)
+# docs/*.md
+
+# Python test scripts (not needed in production)
+tests/export-python

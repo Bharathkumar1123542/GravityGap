@@ -17,6 +17,7 @@ type Props = {
   allZero: boolean;
   sort: string;
   dir: "asc" | "desc";
+  onSortChange?: (sort: string, dir: "asc" | "desc") => void;
 };
 
 export function InvestigationTable({
@@ -24,6 +25,9 @@ export function InvestigationTable({
   environments,
   weights,
   allZero,
+  // sort,
+  // dir,
+  // onSortChange,
 }: Props) {
   const { ids, add, remove } = useCompare();
 
